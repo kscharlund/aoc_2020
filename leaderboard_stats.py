@@ -31,13 +31,25 @@ def main():
             cet = timezone(timedelta(hours=1))
             problem_open = datetime(2020, 12, problem, 6, 0, 0, tzinfo=cet)
             first_star = datetime.fromtimestamp(timestamps[0], tz=cet)
-            second_star = datetime.fromtimestamp(timestamps[1], tz=cet)
-            print(f'{problem:02d}: {first_star - problem_open} from open to first star, {second_star - first_star} from first to second star')
-            if fastest_first_star is None or first_star - problem_open < fastest_first_star[0]:
-                fastest_first_star = (first_star - problem_open, problem, user)
-            if fastest_second_star is None or second_star - first_star < fastest_second_star[0]:
-                fastest_second_star = (second_star - first_star, problem, user)
+            to_first = first_star - problem_open
+
+            if len(timestamps) > 1:
+                second_star = datetime.fromtimestamp(timestamps[1], tz=cet)
+                to_second = second_star - first_star
+            else:
+                to_second = None
+
+            print(f'{problem:02d}: {to_first} from open to first star'
+                  + (f', {to_second} from first to second star' if to_second else '.'))
+
+            if fastest_first_star is None or to_first < fastest_first_star[0]:
+                fastest_first_star = (to_first, problem, user)
+            if fastest_second_star is None or (to_second is not None
+                                               and to_second < fastest_second_star[0]):
+                fastest_second_star = (to_second, problem, user)
+
         print()
+
     print(f'Fastest first star: 2020-12-{fastest_first_star[1]:02} in {fastest_first_star[0]} by {fastest_first_star[2]}')
     print(f'Fastest second star: 2020-12-{fastest_second_star[1]:02} in {fastest_second_star[0]} by {fastest_second_star[2]}')
 
