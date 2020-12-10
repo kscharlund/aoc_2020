@@ -11,10 +11,11 @@ def a(adapters):
     print(hist[1] * hist[3])
 
 
-num_combs = [1, 1, 2, 4, 7]
+num_combs = [1, 1, 2, 4, 7, 13, 24]
 
 
 def b(adapters):
+    # Note: this solution does not work if there are 2-diffs.
     diffs = [b - a for a, b in zip([0] + adapters, adapters + [adapters[-1]+3])]
     runs = []
     rlen = 0
@@ -28,11 +29,38 @@ def b(adapters):
     print(prod(num_combs[run] for run in runs))
 
 
+def b_dp(adapters):
+    diffs = [b - a for a, b in zip([0] + adapters, adapters + [adapters[-1]+3])]
+    # w_n is the number of paths to (J_i - n) where J_i is the joltage of the i:th adapter.
+    # Starting at J_0 = 0, there is one way (the outlet). There are 0 ways to -1 and -2.
+    w_0, w_1, w_2 = (1, 0, 0)
+    for diff in diffs:
+        if diff == 1:
+            # J_{i+1} := J_i + 1
+            w_0, w_1, w_2 = (w_0 + w_1 + w_2,
+                             w_0,
+                             w_1)
+        elif diff == 2:
+            # J_{i+1} := J_i + 2
+            w_0, w_1, w_2 = (w_0 + w_1,
+                             0,
+                             w_0)
+        elif diff == 3:
+            # J_{i+1} := J_i + 3
+            w_0, w_1, w_2 = (w_0,
+                             0,
+                             0)
+        else:
+            raise ValueError('Impossible input')
+    print(w_0)
+
 def main():
     adapters = list(sorted(int(line.strip()) for line in sys.stdin.readlines()))
     a(adapters)
     print()
     b(adapters)
+    print()
+    b_dp(adapters)
 
 
 if __name__ == '__main__':
