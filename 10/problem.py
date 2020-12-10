@@ -54,6 +54,26 @@ def b_dp(adapters):
             raise ValueError('Impossible input')
     print(w_0)
 
+
+def b_rec(adapters):
+    output = adapters[-1]
+    adapters = set(adapters)
+    cache = {}
+    def ways(joltage):
+        if joltage in cache:
+            return cache[joltage]
+        if joltage == 0:
+            return 1
+        if joltage < 0:
+            return 0
+        if joltage in adapters:
+            res = ways(joltage - 1) + ways(joltage - 2) + ways(joltage - 3)
+            cache[joltage] = res
+            return res
+        return 0
+    print(ways(output))
+
+
 def main():
     adapters = list(sorted(int(line.strip()) for line in sys.stdin.readlines()))
     a(adapters)
@@ -61,6 +81,8 @@ def main():
     b(adapters)
     print()
     b_dp(adapters)
+    print()
+    b_rec(adapters)
 
 
 if __name__ == '__main__':
