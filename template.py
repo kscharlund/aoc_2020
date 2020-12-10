@@ -1,8 +1,19 @@
 import sys
+from pprint import pprint
+
+
+def a():
+    pass
+
+
+def b():
+    pass
 
 
 def main():
-    pass
+    a()
+    print()
+    b()
 
 
 if __name__ == '__main__':
