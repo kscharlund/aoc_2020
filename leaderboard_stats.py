@@ -5,15 +5,14 @@ import sys
 
 def get_user_star_timestamps(data):
     user_star_timestamps = {}
-    for user in data['members'].values():
-        name = user['name']
-        user_star_timestamps[name] = {}
+    for uid, user in data['members'].items():
+        user_star_timestamps[uid] = {}
         completions = user['completion_day_level']
         for problem in sorted(completions, key=int):
             tss = [int(completions[problem]['1']['get_star_ts'])]
             if '2' in completions[problem]:
                 tss.append(int(completions[problem]['2']['get_star_ts']))
-            user_star_timestamps[name][int(problem)] = tss
+            user_star_timestamps[uid][int(problem)] = tss
     return user_star_timestamps
 
 
@@ -22,11 +21,15 @@ def main():
         json_file = open(sys.argv[1])
     else:
         json_file = sys.stdin
-    user_star_timestamps = get_user_star_timestamps(json.load(json_file))
+    leaderboard_data = json.load(json_file)
+    user_star_timestamps = get_user_star_timestamps(leaderboard_data)
     fastest_first_star = None
     fastest_second_star = None
-    for user, problems in user_star_timestamps.items():
-        print(user)
+    for uid, problems in user_star_timestamps.items():
+        user_name = leaderboard_data['members'][uid]['name']
+        num_stars = leaderboard_data['members'][uid]['stars']
+        local_score = leaderboard_data['members'][uid]['local_score']
+        print(f'{user_name} ({num_stars} stars, {local_score} local points)')
         for problem, timestamps in problems.items():
             cet = timezone(timedelta(hours=1))
             problem_open = datetime(2020, 12, problem, 6, 0, 0, tzinfo=cet)
@@ -43,10 +46,10 @@ def main():
                   + (f', {to_second} from first to second star' if to_second else '.'))
 
             if fastest_first_star is None or to_first < fastest_first_star[0]:
-                fastest_first_star = (to_first, problem, user)
+                fastest_first_star = (to_first, problem, user_name)
             if fastest_second_star is None or (to_second is not None
                                                and to_second < fastest_second_star[0]):
-                fastest_second_star = (to_second, problem, user)
+                fastest_second_star = (to_second, problem, user_name)
 
         print()
 
