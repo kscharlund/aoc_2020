@@ -37,12 +37,12 @@ def parse_input():
 
 
 def get_valid_fields(value, field_ranges):
-    valid_fields = set()
-    for field, ranges in field_ranges.items():
-        for lo, hi in ranges:
-            if lo <= value <= hi:
-                valid_fields.add(field)
-    return valid_fields
+    return {
+        field
+        for field, ranges in field_ranges.items()
+        for lo, hi in ranges
+        if lo <= value <= hi
+    }
 
 
 def a(field_ranges, nearby_tickets):
@@ -55,27 +55,30 @@ def a(field_ranges, nearby_tickets):
 
 
 def b(field_ranges, nearby_tickets, your_ticket):
-    valid_fields = [[get_valid_fields(v, field_ranges) for v in t] for t in nearby_tickets]
-    valid_fields = [vf for vf in valid_fields if all(vf)]
-    valid_union = [set(field_ranges.keys()) for _ in range(len(valid_fields[0]))]
-    for ticket in valid_fields:
-        for ii, valid in enumerate(ticket):
-            valid_union[ii] &= valid
+    N = len(field_ranges)
 
-    undecided = {ii for ii in range(len(valid_union)) if len(valid_union[ii]) > 1}
-    decided = {ii for ii in range(len(valid_union)) if len(valid_union[ii]) == 1}
+    range_tickets = [[get_valid_fields(v, field_ranges) for v in t] for t in nearby_tickets]
+    valid_tickets = [tt for tt in range_tickets if all(tt)]
+
+    valid_fields = [set(field_ranges.keys()) for _ in range(N)]
+    for ticket in valid_tickets:
+        for ii, valid in enumerate(ticket):
+            valid_fields[ii] &= valid
+
+    undecided = {ii for ii in range(N) if len(valid_fields[ii]) > 1}
+    decided = {ii for ii in range(N) if len(valid_fields[ii]) == 1}
     while undecided:
         for ii in decided:
             for jj in undecided:
-                valid_union[jj] -= valid_union[ii]
-        undecided = {ii for ii in range(len(valid_union)) if len(valid_union[ii]) > 1}
-        decided = {ii for ii in range(len(valid_union)) if len(valid_union[ii]) == 1}
+                valid_fields[jj] -= valid_fields[ii]
+        undecided = {ii for ii in range(N) if len(valid_fields[ii]) > 1}
+        decided = {ii for ii in range(N) if len(valid_fields[ii]) == 1}
 
     res = 1
-    for ii, field_set in enumerate(valid_union):
-        for field in field_set:
-            if field.startswith('departure'):
-                res *= your_ticket[ii]
+    for ii, field_set in enumerate(valid_fields):
+        field = field_set.pop()
+        if field.startswith('departure'):
+            res *= your_ticket[ii]
     print(res)
 
 
