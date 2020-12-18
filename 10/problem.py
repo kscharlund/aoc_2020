@@ -11,7 +11,7 @@ def a(adapters):
     print(hist[1] * hist[3])
 
 
-num_combs = [1, 1, 2, 4, 7, 13, 24]
+num_combs = [1, 1, 2, 4, 7]
 
 
 def b(adapters):
