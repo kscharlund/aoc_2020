@@ -48,3 +48,6 @@ recursive parser. For part two, where operator precedence was introduced,
 I found Dijkstras
 [shunting-yard algorithm](https://en.wikipedia.org/wiki/Shunting-yard_algorithm)
 that I hadn't heard about before and found very pleasing.
+
+Some pretty interesting Python trickery to be able to use `eval` on
+https://www.reddit.com/r/adventofcode/comments/kfh5gn/2020_day_18_part2_swapping_to_parse_using_the/.
