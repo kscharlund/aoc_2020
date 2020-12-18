@@ -51,6 +51,21 @@ def main():
                                                and to_second < fastest_second_star[0]):
                 fastest_second_star = (to_second, problem, user_name)
 
+        completions = leaderboard_data['members'][uid]['completion_day_level']
+        all_stars = list(sorted(
+            (
+                datetime.fromtimestamp(int(completions[problem][star]['get_star_ts'])),
+                int(problem),
+                int(star),
+            )
+            for problem in completions
+            for star in completions[problem]
+        ))
+        prev_comp_time, prev_problem, prev_star = all_stars[0]
+        for comp_time, problem, star in all_stars[1:]:
+            delta = comp_time - prev_comp_time
+            print(f'Star {problem}:{star} took {delta} after {prev_problem}:{prev_star}.')
+            prev_comp_time, prev_problem, prev_star = comp_time, problem, star
         print()
 
     print(f'Fastest first star: 2020-12-{fastest_first_star[1]:02} in {fastest_first_star[0]} by {fastest_first_star[2]}')
