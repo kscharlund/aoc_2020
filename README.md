@@ -47,7 +47,8 @@ A simple expression parsing problem, I solved part 1 using a hand-written
 recursive parser. For part two, where operator precedence was introduced,
 I found Dijkstras
 [shunting-yard algorithm](https://en.wikipedia.org/wiki/Shunting-yard_algorithm)
-that I hadn't heard about before and found very pleasing.
+that I hadn't heard about before and found very pleasing. More reading on the
+expression parsing topic here: http://www.oilshell.org/blog/2017/03/31.html.
 
 Some pretty interesting Python trickery to be able to use `eval` on
 https://www.reddit.com/r/adventofcode/comments/kfh5gn/2020_day_18_part2_swapping_to_parse_using_the/.
