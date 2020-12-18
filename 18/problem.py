@@ -51,14 +51,12 @@ def evaluate(expr):
 precedence_a = {
     '+': 1,
     '*': 1,
-    '(': 0,
 }
 
 
 precedence_b = {
     '+': 2,
     '*': 1,
-    '(': 0,
 }
 
 
@@ -66,20 +64,22 @@ def dijkstra_parse(line, precedence):
     op_stack = []
     out_queue = []
     for token in line:
-        # print(token, out_queue, op_stack)
         if token.isdigit():
             out_queue.append(int(token))
+        elif token == '(':
+            op_stack.append(token)
+        elif token == ')':
+            while op_stack and op_stack[-1] != '(':
+                out_queue.append(op_stack.pop())
+            op_stack.pop()
         else:
-            if token == ')':
-                while op_stack and op_stack[-1] != '(':
-                    out_queue.append(op_stack.pop())
-                op_stack.pop()
-            elif token == '(':
-                op_stack.append(token)
-            else:
-                while op_stack and precedence[token] <= precedence[op_stack[-1]]:
-                    out_queue.append(op_stack.pop())
-                op_stack.append(token)
+            while op_stack and op_stack[-1] != '(' \
+                    and precedence[token] <= precedence[op_stack[-1]]:
+                # Note: equal precedence should only pop stack if
+                # token is a left associative operator.
+                out_queue.append(op_stack.pop())
+            op_stack.append(token)
+        # print(token, out_queue, op_stack)
     while op_stack:
         out_queue.append(op_stack.pop())
     return out_queue
