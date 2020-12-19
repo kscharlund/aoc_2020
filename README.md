@@ -59,3 +59,6 @@ This one was tough for me. I managed to solve part 1 with an ugly, inefficient
 recursive solution. For part 2, I nicked code from
 [reddit user thomasahle](https://www.reddit.com/r/adventofcode/comments/kg1mro/2020_day_19_solutions/ggcohaa)
 instead. Just not inspired enough to do it properly...
+
+Another nice solution, similar to what I was going for but done competently:
+https://gist.github.com/andreypopp/6036fe8dcb891534f15c0d741f68f2f6
