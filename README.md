@@ -52,3 +52,10 @@ expression parsing topic here: http://www.oilshell.org/blog/2017/03/31.html.
 
 Some pretty interesting Python trickery to be able to use `eval` on
 https://www.reddit.com/r/adventofcode/comments/kfh5gn/2020_day_18_part2_swapping_to_parse_using_the/.
+
+## 2020-12-19 ##
+
+This one was tough for me. I managed to solve part 1 with an ugly, inefficient
+recursive solution. For part 2, I nicked code from
+[reddit user thomasahle](https://www.reddit.com/r/adventofcode/comments/kg1mro/2020_day_19_solutions/ggcohaa)
+instead. Just not inspired enough to do it properly...
