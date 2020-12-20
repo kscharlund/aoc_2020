@@ -62,3 +62,10 @@ instead. Just not inspired enough to do it properly...
 
 Another nice solution, similar to what I was going for but done competently:
 https://gist.github.com/andreypopp/6036fe8dcb891534f15c0d741f68f2f6
+
+## 2020-12-20 ##
+
+Another tough one, I don't know if I'll be able to keep it going until
+Christmas Day. Decided on a backtracking solution quickly, but had a hard
+time getting the recursion right. Once that was done, the rest was OK. Some
+duplication between part 1 and 2, but not too bad.
