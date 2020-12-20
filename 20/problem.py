@@ -36,12 +36,12 @@ def get_edges(tile):
     return (le, te, re, be)
 
 
-def flip(edges):
+def flip_edges(edges):
     le, te, re, be = edges
     return (le[::-1], be, re[::-1], te)
 
 
-def rotate(edges, clockwise_quarter_turns):
+def rotate_edges(edges, clockwise_quarter_turns):
     le, te, re, be = edges
     if clockwise_quarter_turns == 0:
         return edges
@@ -82,15 +82,15 @@ def solve(tiles, remaining, board, assignment):
     for tile_id in remaining:
         edges = get_edges(tiles[tile_id])
         for ii in range(4):
-            r_edges = rotate(edges, ii)
+            r_edges = rotate_edges(edges, ii)
             if fits(r_edges, board, row, col):
                 board[row][col] = r_edges
                 assignment[row][col] = (tile_id, False, ii)
                 if solve(tiles, remaining - {tile_id}, board, assignment):
                     return True
-        f_edges = flip(edges)
+        f_edges = flip_edges(edges)
         for ii in range(4):
-            r_edges = rotate(f_edges, ii)
+            r_edges = rotate_edges(f_edges, ii)
             if fits(r_edges, board, row, col):
                 board[row][col] = r_edges
                 assignment[row][col] = (tile_id, True, ii)
@@ -106,24 +106,23 @@ def a(tiles):
     board = [[None for _ in range(nn)] for _ in range(nn)]
     assignment = [[None for _ in range(nn)] for _ in range(nn)]
     assert solve(tiles, set(tiles.keys()), board, assignment)
-    pprint(board)
     print(assignment[0][0][0] * assignment[0][-1][0] * assignment[-1][0][0] * assignment[-1][-1][0])
     return assignment
 
 
-def get_image(tile, do_flip, do_rotations, cut_borders):
+def get_image(tile, flip, rotations, cut_borders):
     mm = len(tile)
-    if do_flip:
+    if flip:
         get_coord = lambda row, col: (mm - 1 - row, col)
     else:
         get_coord = lambda row, col: (row, col)
-    if do_rotations == 0:
+    if rotations == 0:
         get_rot_coord = get_coord
-    elif do_rotations == 1:
+    elif rotations == 1:
         get_rot_coord = lambda row, col: get_coord(mm - 1 - col, row)
-    elif do_rotations == 2:
+    elif rotations == 2:
         get_rot_coord = lambda row, col: get_coord(mm - 1 - row, mm - 1 - col)
-    elif do_rotations == 3:
+    elif rotations == 3:
         get_rot_coord = lambda row, col: get_coord(col, mm - 1 - row)
     image = []
     for row in range(0 + cut_borders, mm - cut_borders):
@@ -140,8 +139,8 @@ def make_full_image(tiles, assignment):
     for assigned_row in assignment:
         tile_row = []
         for assigned_tile in assigned_row:
-            tile_id, flipped, rotations = assigned_tile
-            tile_row.append(get_image(tiles[tile_id], flipped, rotations, 1))
+            tile_id, flip, rotations = assigned_tile
+            tile_row.append(get_image(tiles[tile_id], flip, rotations, 1))
         mm = len(tile_row[0])
         for ii in range(mm):
             img_lines.append(''.join(tile[ii] for tile in tile_row))
