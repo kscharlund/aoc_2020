@@ -38,7 +38,7 @@ def b(hand1, hand2):
         while h1 and h2:
             c1, c2, h1, h2 = h1[0], h2[0], h1[1:], h2[1:]
             if c1 <= len(h1) and c2 <= len(h2):
-                winner = recursive_combat((h1[:c1], h2[:c2]))[0]
+                winner, _ = recursive_combat((h1[:c1], h2[:c2]))
                 if winner == 1:
                     h1 = h1 + (c1, c2)
                 else:
@@ -55,7 +55,7 @@ def b(hand1, hand2):
                 break
             seen_states.add(next_state)
         return winner, h1 if winner == 1 else h2
-    winner, winning_hand = recursive_combat((hand1, hand2))
+    _, winning_hand = recursive_combat((hand1, hand2))
     print(sum(c * (i + 1) for i, c in enumerate(reversed(winning_hand))))
 
 
