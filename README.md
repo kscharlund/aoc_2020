@@ -74,5 +74,5 @@ duplication between part 1 and 2, but not too bad.
 
 Ouch. The correct data representation just never occurred to me. Managed to
 implement a crappy version of part 1 manipulating an index dict, but was too
-ashamed to commit that to the git history. Using some a linked list is obvious
-in retrospect, but I had to go to reddit to get a hint. :(
+ashamed to commit that to the git history. Using a linked list is obvious in
+retrospect, but I had to go to reddit to get a hint. :(
