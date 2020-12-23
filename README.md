@@ -69,3 +69,10 @@ Another tough one, I don't know if I'll be able to keep it going until
 Christmas Day. Decided on a backtracking solution quickly, but had a hard
 time getting the recursion right. Once that was done, the rest was OK. Some
 duplication between part 1 and 2, but not too bad.
+
+## 2020-12-23 ##
+
+Ouch. The correct data representation just never occurred to me. Managed to
+implement a crappy version of part 1 manipulating an index dict, but was too
+ashamed to commit that to the git history. Using some a linked list is obvious
+in retrospect, but I had to go to reddit to get a hint. :(
