@@ -5,18 +5,6 @@ import re
 from copy import copy
 
 
-def memoize(func):
-    """
-    Memoization decorator for a function taking a single argument.
-    """
-    class Memodict(dict):
-        """Memoization dictionary."""
-        def __missing__(self, key):
-            ret = self[key] = func(key)
-            return ret
-    return Memodict().__getitem__
-
-
 def parse_input():
     foods = []
     for line in sys.stdin:

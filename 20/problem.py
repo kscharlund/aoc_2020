@@ -4,18 +4,6 @@ import math
 import re
 
 
-def memoize(func):
-    """
-    Memoization decorator for a function taking a single argument.
-    """
-    class Memodict(dict):
-        """Memoization dictionary."""
-        def __missing__(self, key):
-            ret = self[key] = func(key)
-            return ret
-    return Memodict().__getitem__
-
-
 def read_tiles():
     tiles = {}
     tile_strings = sys.stdin.read().split('\n\n')
